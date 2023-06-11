@@ -31,7 +31,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	runtimeOnly("com.h2database:h2")
-	runtimeOnly("mysql:mysql-connector-java")
+	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
