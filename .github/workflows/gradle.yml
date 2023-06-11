@@ -35,7 +35,7 @@ jobs:
         run: ./gradlew build
 
       - name: Make zip file
-        run: zip -qq -r ./$GITHUB_SHA.zip .
+        run: zip -qq -r ./seungliyojeong-server.zip .
         shell: bash
 
       - name: Configure AWS credentials
@@ -46,7 +46,7 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 seungliyojeong-server.zip s3://seungliyojeong-s3/deploy/$GITHUB_SHA.zip
+        run: aws s3 cp --region ap-northeast-2 seungliyojeong-server.zip s3://seungliyojeong-s3/deploy/seungliyojeong-server.zip
 
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name ${{ env.CODE_DEPLOY_APP_NAME }} --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name ${{ env.CODE_DEPLOY_GROUP_NAME }} --s3-location bucket=seungliyojeong-s3,bundleType=zip,key=deploy/$GITHUB_SHA.zip
+        run: aws deploy create-deployment --application-name ${{ env.CODE_DEPLOY_APP_NAME }} --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name ${{ env.CODE_DEPLOY_GROUP_NAME }} --s3-location bucket=seungliyojeong-s3,bundleType=zip,key=deploy/seungliyojeong-server.zip
