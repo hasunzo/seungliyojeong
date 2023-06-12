@@ -30,6 +30,13 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
+
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-kotlin
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
+
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
