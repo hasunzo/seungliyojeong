@@ -31,11 +31,19 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	// swagger
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
 
-	// https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-kotlin
+	// jackson-module
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
+
+	// Spring Security
+	implementation("org.springframework.boot:spring-boot-starter-security")
+
+	// jwt
+	implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+	implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
+	implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
 
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("com.mysql:mysql-connector-j")
