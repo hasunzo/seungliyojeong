@@ -1,4 +1,4 @@
-package com.server.slyj.user.domain
+package com.slyj.server.user.domain
 
 import jakarta.persistence.*
 
@@ -14,4 +14,6 @@ class User(
 
     @Column
     val email: String
+
+    // TODO 팀 추가 필요
 )

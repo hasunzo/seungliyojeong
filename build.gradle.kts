@@ -10,6 +10,8 @@ plugins {
 	kotlin("jvm") version kotlinVersion
 }
 
+extra["springCloudVersion"] = "2022.0.3"
+
 allOpen {
 	annotation("jakarta.persistence.Entity")
 }
@@ -18,12 +20,18 @@ noArg {
 	annotation("jakarta.persistence.Entity")
 }
 
-group = "com.server.slyj"
+group = "com.slyj.server"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
 	mavenCentral()
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+	}
 }
 
 dependencies {
@@ -33,6 +41,9 @@ dependencies {
 
 	// swagger
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
+
+	// jackson-core
+	implementation("com.fasterxml.jackson.core:jackson-core:2.15.2")
 
 	// jackson-module
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
@@ -44,6 +55,15 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.11.2")
 	implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
 	implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
+
+	//feign
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+/*
+
+	// spring-cloud-starter-loadbalancer
+	implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
+*/
+
 
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("com.mysql:mysql-connector-j")
