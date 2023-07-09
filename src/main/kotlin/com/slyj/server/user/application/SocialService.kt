@@ -3,32 +3,37 @@ package com.slyj.server.user.application
 import com.slyj.server.user.SocialProperty
 import com.slyj.server.user.SocialProvider.GOOGLE
 import com.slyj.server.user.SocialProvider.KAKAO
-import com.slyj.server.user.infra.GoogleApiClient
-import com.slyj.server.user.infra.GoogleClientValueDto
-import com.slyj.server.user.infra.GoogleOAuthApiClient
+import com.slyj.server.user.infra.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
-import java.net.URI
 
 @Component
 class SocialService(
     private val googleOAuthApiClient: GoogleOAuthApiClient,
-    private val googleApiClient: GoogleApiClient
+    private val googleApiClient: GoogleApiClient,
+    private val kakaoOAuthApiClient: KakaoOAuthApiClient,
+    private val kakaoApiClient: KakaoApiClient
 ) {
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     @Value("\${social.google.client-id}")
-    lateinit var clientId: String
+    lateinit var googleClientId: String
 
     @Value("\${social.google.client-secret}")
-    lateinit var clientSecret: String
+    lateinit var googleClientSecret: String
 
     @Value("\${social.google.scope}")
-    lateinit var scope: String
+    lateinit var googleScope: String
 
-    @Value("\${social.google.redirect-url}")
-    lateinit var redirectUri: String
+    @Value("\${social.google.redirect-uri}")
+    lateinit var googleRedirectUri: String
+
+    @Value("\${social.kakao.client-id}")
+    lateinit var kakaoClientId: String
+
+    @Value("\${social.kakao.redirect-uri}")
+    lateinit var kakaoRedirectUri: String
 
     fun socialProperty(request: RegisterUserRequest): SocialProperty =
         when (request.type) {
@@ -38,15 +43,22 @@ class SocialService(
         }
 
     fun fetchKakao(request: RegisterUserRequest): SocialProperty {
-        TODO("카카오 소셜 로그인 개발")
+        val kakaoRequest = KakaoClientValueDto(
+            clientId = kakaoClientId,
+            redirectUri = kakaoRedirectUri,
+            code = request.token
+        )
+
+        val accessToken = kakaoOAuthApiClient.getAccessToken(kakaoRequest.toUrlEncodedString())
+        return kakaoApiClient.getUserInfo("Bearer ".plus(accessToken.accessToken))
     }
 
     fun fetchGoogle(request: RegisterUserRequest): SocialProperty {
         val googleRequest = GoogleClientValueDto(
-            clientId = clientId,
-            clientSecret = clientSecret,
-            scope = scope,
-            redirectUri = redirectUri,
+            clientId = googleClientId,
+            clientSecret = googleClientSecret,
+            scope = googleScope,
+            redirectUri = googleRedirectUri,
             code = request.token
         )
 

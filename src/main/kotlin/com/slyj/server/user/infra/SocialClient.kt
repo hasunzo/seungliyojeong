@@ -1,10 +1,7 @@
 package com.slyj.server.user.infra
 
 import com.slyj.server.user.GoogleProperty
-import feign.HeaderMap
-import feign.Headers
-import feign.Param
-import feign.RequestLine
+import com.slyj.server.user.KakaoProperty
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.*
 
@@ -23,4 +20,17 @@ interface GoogleApiClient {
 //    @Headers("Authorization: Bearer {accessToken}")
     @GetMapping("/oauth2/v2/userinfo")
     fun getUserInfo(@RequestHeader("Authorization") accessToken: String): GoogleProperty
+}
+
+@FeignClient(name = "kakao-oauth-api", url = "https://kauth.kakao.com", configuration = [KakaoFeignConfiguration::class])
+interface KakaoOAuthApiClient {
+
+    @PostMapping(value = ["/oauth/token"]/*, consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE]*/)
+    fun getAccessToken(string: String): KakaoAccessTokenResponse
+}
+
+@FeignClient(name = "kakao-api", url = "https://kapi.kakao.com")
+interface KakaoApiClient {
+    @PostMapping("/v2/user/me")
+    fun getUserInfo(@RequestHeader("Authorization") accessToken: String): KakaoProperty
 }

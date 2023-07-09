@@ -16,7 +16,7 @@ class GoogleAccessTokenResponse(
     var accessToken: String,
 
     @JsonProperty("expires_in")
-    var expiresIn: String? = null,
+    var expiresIn: Int? = null,
 
     @JsonProperty("refresh_token")
     var refreshToken: String? = null,
